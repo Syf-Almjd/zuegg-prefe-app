@@ -189,7 +189,7 @@ const Dashboard = () => {
             left: 0,
             zIndex: 50,
             width: '256px',
-            // background: '#f0f2f5',
+            background: '#f0f2f5',
             borderRight: '1px solid #d9d9d9',
             height: 'calc(100vh - 64px)',
             display: sidebarOpen ? 'flex' : 'none',
