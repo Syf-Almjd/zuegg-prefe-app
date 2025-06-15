@@ -99,26 +99,40 @@ The Product Search view allows you to search for specific Zuegg products and vie
 
 ## Project Structure
 
-```
 zuegg-prefe-app/
-├── public/               # Static assets
+├── public/
+│   ├── index.html
+│   └── logo.svg
 ├── src/
-│   ├── assets/           # CSV data files
-│   │   ├── storesvisible.csv  # Store location data
-│   │   └── zueggproducts.csv  # Product pricing data
-│   ├── components/       # React components
-│   │   ├── Dashboard.jsx      # Main dashboard layout
-│   │   ├── StoreMap.jsx       # Map visualization
-│   │   ├── StoreCountCharts.jsx  # Analytics charts
-│   │   └── ProductSearch.jsx  # Product search interface
-│   ├── contexts/         # React contexts
-│   │   └── AppContext.jsx     # Application state management
-│   ├── lib/              # Utility functions
-│   │   └── dataUtils.js       # Data processing utilities
-│   ├── App.jsx           # Main application component
-│   └── main.jsx          # Application entry point
-└── index.html            # HTML entry point
-```
+│   ├── assets/
+│   │   ├── zuegg_logo.png
+│   │   └── ...
+│   ├── components/
+│   │   ├── dashboard/
+│   │   │   └── Dashboard.jsx
+│   │   ├── landing/
+│   │   │   └── WelcomePage.jsx
+│   │   ├── map/
+│   │   │   └── StoreMap.jsx
+│   │   ├── charts/
+│   │   │   └── StoreCountCharts.jsx
+│   │   ├── search/
+│   │   │   └── ProductSearch.jsx
+│   │   └── ...
+│   ├── contexts/
+│   │   └── AppContext.jsx
+│   ├── hooks/
+│   │   └── use-mobile.js
+│   ├── lib/
+│   │   ├── dataUtils.js
+│   │   └── utils.js
+│   ├── App.jsx
+│   └── main.jsx
+├── dist/
+│   ├── index.html
+│   └── ...
+├── package.json
+└── README.md
 
 ## Data Sources
 
