@@ -95,7 +95,18 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen min-w-full bg-gradient-to-br from-slate-50 to-blue-50">
+    <div 
+      className="dashboard-layout" 
+      style={{ 
+        height: '100vh', 
+        width: '100vw', 
+        display: 'flex', 
+        flexDirection: 'column',
+        margin: 0,
+        padding: 0,
+        overflow: 'hidden'
+      }}
+    >
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -143,7 +154,9 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="flex">
+
+      {/* Layout Container */}
+      <div style={{ display: 'flex', flex: 1, height: 'calc(100vh - 64px)', overflow: 'hidden', }}>
         {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {sidebarOpen && (
@@ -151,24 +164,40 @@ const Dashboard = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="lg:hidden fixed inset-0 z-40 bg-black/50"
+              className="lg:hidden"
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 40,
+                background: 'rgba(0,0,0,0.5)'
+              }}
               onClick={() => setSidebarOpen(false)}
             />
           )}
         </AnimatePresence>
 
-        {/* Sidebar */}
+        {/* Sidebar - Only show on mobile when open */}
         <motion.aside
           initial={false}
           animate={{
             x: sidebarOpen ? 0 : '-100%'
           }}
-          className={`lg:translate-x-0 fixed lg:relative inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 lg:block ${
-            sidebarOpen ? 'block' : 'hidden'
-          }`}
+          className="dashboard-sider lg:hidden"
+          style={{
+            position: 'fixed',
+            top: '64px',
+            left: 0,
+            zIndex: 50,
+            width: '256px',
+            // background: '#f0f2f5',
+            borderRight: '1px solid #d9d9d9',
+            height: 'calc(100vh - 64px)',
+            display: sidebarOpen ? 'flex' : 'none',
+            flexDirection: 'column'
+          }}
         >
-          <div className="flex flex-col h-full pt-20 lg:pt-6">
-            <div className="flex-1 px-4 space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px 0' }}>
+            <div style={{ flex: 1, padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -178,23 +207,44 @@ const Dashboard = () => {
                       setSelectedKey(item.key);
                       setSidebarOpen(false);
                     }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 group ${
-                      selectedKey === item.key
-                        ? 'bg-primary text-white shadow-md'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '12px 16px',
+                      borderRadius: '6px',
+                      textAlign: 'left',
+                      transition: 'all 0.2s',
+                      background: selectedKey === item.key ? '#1890ff' : 'transparent',
+                      color: selectedKey === item.key ? 'white' : '#262626',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedKey !== item.key) {
+                        e.target.style.background = '#e6f7ff';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedKey !== item.key) {
+                        e.target.style.background = 'transparent';
+                      }
+                    }}
                   >
                     <Icon 
                       size={20} 
-                      className={`transition-transform duration-200 ${
-                        selectedKey === item.key ? 'scale-110' : 'group-hover:scale-105'
-                      }`}
+                      style={{
+                        transition: 'transform 0.2s',
+                        transform: selectedKey === item.key ? 'scale(1.1)' : 'scale(1)'
+                      }}
                     />
-                    <div className="flex-1">
-                      <div className="font-medium">{item.label}</div>
-                      <div className={`text-xs ${
-                        selectedKey === item.key ? 'text-blue-100' : 'text-gray-500'
-                      }`}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: '500' }}>{item.label}</div>
+                      <div style={{ 
+                        fontSize: '12px', 
+                        color: selectedKey === item.key ? 'rgba(255,255,255,0.8)' : '#8c8c8c'
+                      }}>
                         {item.description}
                       </div>
                     </div>
@@ -206,8 +256,18 @@ const Dashboard = () => {
         </motion.aside>
 
         {/* Main Content */}
-        <main className="flex-1">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-4">
+        <main 
+          className="dashboard-content"
+          style={{
+            flex: 1,
+            padding: '46px',
+            // background: 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%)',
+            overflow: 'auto',
+            height: '100%',
+            width: '100%'
+          }}
+        >
+          <div style={{ height: '100%', width: '100%' }}>
             <AnimatePresence mode="wait">
               {renderContent()}
             </AnimatePresence>
