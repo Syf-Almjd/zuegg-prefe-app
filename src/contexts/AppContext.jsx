@@ -18,13 +18,17 @@ export const AppProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // NEW state: track whether user entered the app (e.g., after WelcomePage)
+  const [hasEntered, setHasEntered] = useState(false);
+  const enterApp = () => setHasEntered(true);
+
   useEffect(() => {
     const loadData = async () => {
       try {
         const storesData = processStores();
         const productsData = processProducts();
         const uniqueProductsData = getUniqueProducts(productsData);
-        
+
         setStores(storesData);
         setProducts(productsData);
         setUniqueProducts(uniqueProductsData);
@@ -44,7 +48,9 @@ export const AppProvider = ({ children }) => {
     uniqueProducts,
     selectedProduct,
     setSelectedProduct,
-    loading
+    loading,
+    hasEntered,       // exposed to consumer
+    enterApp          // function to set hasEntered true
   };
 
   return (
@@ -53,4 +59,3 @@ export const AppProvider = ({ children }) => {
     </AppContext.Provider>
   );
 };
-
